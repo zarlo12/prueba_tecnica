@@ -1,9 +1,24 @@
+<!-- Please remove this file from your project -->
 <template>
-  <Tutorial/>
+  <div>
+    
+    <div>
+      
+      <div >
+        
+        <p >
+         
+        </p>
+
+      </div>
+     
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage'
+  name: 'Index'
 }
 </script>
+
