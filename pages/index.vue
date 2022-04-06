@@ -1,5 +1,8 @@
 <template>
-<div>
+<div class="container ">
+
+  
+
   <div class="titulo">
     <h2>Página 1</h2><br>
   </div>
@@ -19,8 +22,28 @@
               <a title="Ingresar">Ingresar</a>
           </button>
       </div>
-      <div class="header-box-menu-bg-layout"></div>
   </div>
+
+
+
+
+  <div class="details-modal " v-if="true ">
+      <div class="details-modal-close">
+        X
+      </div>
+      <div class="details-modal-title">
+        <h1>My details modal</h1>
+      </div>
+      <div class="details-modal-content">
+        <p>
+          You can click the X in the corner or click the overlay to close this modal.
+          Something like this could be useful as a nice way to show additional information,
+          but that's about as far as I would take it. It's just a nice way of styling the details element.
+        </p>
+      </div>
+    </div>
+
+
 </div>
         
 </template>
