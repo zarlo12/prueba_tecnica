@@ -41,6 +41,9 @@ export default {
             mostrarModal: false
         }
     },
+    methods: {
+        
+    },
 }
 </script>
 

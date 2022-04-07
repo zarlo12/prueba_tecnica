@@ -52,7 +52,7 @@ export default {
     },
     methods: {
       cerrarModal(){
-        console.log('Cerrar modal');
+        this.crearCuenta=false;
         this.selectVal=false
       }
     },

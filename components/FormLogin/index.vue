@@ -41,18 +41,11 @@
                   <div>
                       <!---->
                       <div id="login-button-submit" class="row">
-                          <div><button type="submit" class="btn primary login-submit-button">Entra</button></div>
+                          <div><button @click.prevent="handleLogin" class="btn primary login-submit-button">Entra</button></div>
                           <a rel="nofollow" class="recover-link"> ¿Olvidaste tu contraseña? </a>
                       </div>
                   </div>
               </form>
-              <div class="login-terms row" style="display: none;">
-                  <div>
-                      Al crear una cuenta, estoy de acuerdo con las
-                      <a href="https://ayudasegundamano.force.com/ayuda/s/news/t-rminos-y-condiciones-de-pago-20Y1J000000kCY6UAM" target="_blank" rel="noopener"> Condiciones de uso </a> y la
-                      <a href="https://ayudasegundamano.force.com/ayuda/s/news/aviso-de-privacidad-20Y1J000000kCLTUA2" target="_blank" rel="noopener"> Política de privacidad</a>.
-                  </div>
-              </div>
           </div>
           <div class="login-back-button" @click="$emit('crearCuenta')">
               <!---->
@@ -65,5 +58,16 @@
 <script>
 export default {
     name: "FormLogin",
+    data() {
+        return {
+            
+        }
+    },
+    methods: {
+        handleLogin(){
+            console.log("🚀 ~ file: index.vue ~ line 75 ~ handleLogin ~ handleLogin", true)
+
+        }
+    },
 }
 </script>
