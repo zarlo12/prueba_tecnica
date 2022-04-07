@@ -22,12 +22,19 @@
               <a title="Ingresar">Ingresar</a>
           </button>
       </div>
+
+     
   </div>
+    
 
+  <ModalIngresar v-model="mostrarModal" @getDatos="getDatos" />
 
-
-
-  <ModalIngresar v-model="mostrarModal" />
+   <div>
+        <p>Resultado: </p><br>
+        <pre>
+        {{ datosForm }}
+        </pre>
+    </div>
 
 
 </div>
@@ -38,11 +45,15 @@
 export default {
     data() {
         return {
-            mostrarModal: false
+            mostrarModal: false,
+            datosForm: {}
         }
     },
     methods: {
-        
+        getDatos(datosForm){
+            this.datosForm = datosForm;
+            this.mostrarModal=false;
+        }
     },
 }
 </script>

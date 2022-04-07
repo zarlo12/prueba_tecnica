@@ -8,7 +8,7 @@
       <div class="details-modal-content">
         <div id="login-form">
 
-        <FormLogin @crearCuenta="crearCuenta=true" v-if="!crearCuenta" /> 
+        <FormLogin @getDatos="getDatos" @crearCuenta="crearCuenta=true" v-if="!crearCuenta" /> 
         <FormRegistro @crearCuenta="crearCuenta=false" v-else /> 
 
       </div>
@@ -54,6 +54,10 @@ export default {
       cerrarModal(){
         this.crearCuenta=false;
         this.selectVal=false
+      },
+
+      getDatos(datosForm){
+        this.$emit('getDatos', datosForm);
       }
     },
 }

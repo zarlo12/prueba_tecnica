@@ -10,7 +10,7 @@
                           
                           <div class="input-container">
                               <div class="sw-InputText none">
-                                  <input type="email" v-model="correo" id="login-email" name="login-email" placeholder="Tu correo electrónico" pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$" displayicon="true" required="required" />
+                                  <input type="email" v-model="formLogin.correo" id="login-email" name="login-email" placeholder="Tu correo electrónico" pattern="^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$" displayicon="true" required="required" />
                                   <span class="sw-InputText_Icon"></span>
                               </div>
                               <div class="sw-InputText_Extra"><p class="sw-InputText_Message"></p></div>
@@ -30,7 +30,7 @@
                           </div>
                           <div class="input-container">
                               <div class="sw-InputText none">
-                                  <input :type="tipoInputPassword" v-model="password" autocomplete="on" id="login-password" name="login-password" placeholder="Tu contraseña" novalidate="novalidate" />
+                                  <input :type="tipoInputPassword" v-model="formLogin.password" autocomplete="on" id="login-password" name="login-password" placeholder="Tu contraseña" novalidate="novalidate" />
                                   <!---->
                               </div>
                               <div class="sw-InputText_Extra"><p class="sw-InputText_Message"></p></div>
@@ -68,8 +68,10 @@ export default {
     name: "FormLogin",
     data() {
         return {
-            correo: '',
-            password: '',
+            formLogin: {
+                correo: '',
+                password: '',
+            },
             mensajeError: '',
             mostrarPassword: false
         }
@@ -83,9 +85,11 @@ export default {
         async handleLogin(){
             
             try{
-                const valid = await this.validarCampos();
+                await this.validarCampos();
+
+                //enviar datos al componente padre
+                this.$emit('getDatos', this.formLogin);
             }catch(error){
-                console.log("🚀 ~ file: index.vue ~ line 81 ~ handleLogin ~ error", error)
                 this.mensajeError=error;
             }
             
@@ -94,12 +98,12 @@ export default {
         validarCampos() {
             return new Promise((resolve, reject) => {
                 const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                if(!re.test(String(this.correo).toLowerCase())){
+                if(!re.test(String(this.formLogin.correo).toLowerCase())){
                     reject('El correo no es válido');
                 }
 
                 const reExPassword = /^(?=.*[A-Z])(?=.*\d).*$/;
-                if(!reExPassword.test(String(this.password))){
+                if(!reExPassword.test(String(this.formLogin.password))){
                     reject('Las contraseñas deben tener al menos una letra mayúscula y un número.');
                 }
 
