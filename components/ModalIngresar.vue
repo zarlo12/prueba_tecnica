@@ -9,7 +9,7 @@
         <div id="login-form">
 
         <FormLogin @getDatos="getDatos" @crearCuenta="crearCuenta=true" v-if="!crearCuenta" /> 
-        <FormRegistro @crearCuenta="crearCuenta=false" v-else /> 
+        <FormRegistro @getDatos="getDatos" @crearCuenta="crearCuenta=false" v-else /> 
 
       </div>
 

@@ -49,6 +49,13 @@ export default {
             datosForm: {}
         }
     },
+    watch:{
+        'mostrarModal': function(){
+            if(this.mostrarModal){
+                this.datosForm = {}
+            }
+        }
+    },
     methods: {
         getDatos(datosForm){
             this.datosForm = datosForm;

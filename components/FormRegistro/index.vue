@@ -8,21 +8,11 @@
                     <div >
                         <!---->
                         <div  class="row">
-                            <div  id="login-toogle-password" style="display: none;">
-                                <div  class="form-input-toggle">
-                                    <div >
-                                        <label >
-                                            <input  id="ai-toggle-password" type="checkbox" name="toggle-password" />
-                                            <div ><p >Ocultar</p></div>
-                                            <p  class="tip error"></p>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+                           
                             <div   class="input-container">
                                 <div  class="sw-InputText none">
                                     <input
-                                        
+                                        v-model="formRegistro.correo"
                                         type="email"
                                         id="register-email"
                                         name="register-email"
@@ -37,71 +27,38 @@
                             </div>
                         </div>
                         <div  class="row login-password-input">
-                            <div  id="login-toogle-password" style="display: none;">
-                                <div  class="form-input-toggle">
-                                    <div >
-                                        <label >
-                                            <input  id="ai-toggle-password" type="checkbox" name="toggle-password" />
-                                            <div ><p >Mostrar</p></div>
-                                            <p  class="tip error"></p>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+                           
                             <div   class="input-container">
                                 <div  class="sw-InputText none">
-                                    <input  type="password" id="register-password" name="register-password" placeholder="Tu contraseña" required="required" displayicon="true" minlength="5" />
+                                    <input v-model="formRegistro.password"  type="password" id="register-password" name="register-password" placeholder="Tu contraseña" required="required" displayicon="true" minlength="5" />
                                     <span  class="sw-InputText_Icon"></span>
                                 </div>
                                 <div  class="sw-InputText_Extra"><p  class="sw-InputText_Message"></p></div>
                             </div>
                         </div>
                         <div  class="row">
-                            <div  id="login-toogle-password" style="display: none;">
-                                <div  class="form-input-toggle">
-                                    <div >
-                                        <label >
-                                            <input  id="ai-toggle-password" type="checkbox" name="toggle-password" />
-                                            <div ><p >Mostrar</p></div>
-                                            <p  class="tip error"></p>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
                             <div   class="input-container">
                                 <div  class="sw-InputText none">
-                                    <input  type="password" id="register-confirm-password" name="register-confirm-password" placeholder="Repite tu contraseña" minlength="5" required="required" displayicon="true" />
+                                    <input v-model="formRegistro.password_confirm" type="password" id="register-confirm-password" name="register-confirm-password" placeholder="Repite tu contraseña" minlength="5" required="required" displayicon="true" />
                                     <span  class="sw-InputText_Icon"></span>
                                 </div>
                                 <div  class="sw-InputText_Extra"><p  class="sw-InputText_Message"></p></div>
                             </div>
                         </div>
-                        <div  class="row">
-                            <div  id="login-toogle-password" style="display: none;">
-                                <div  class="form-input-toggle">
-                                    <div >
-                                        <label >
-                                            <input  id="ai-toggle-password" type="checkbox" name="toggle-password" />
-                                            <div ><p >Ocultar</p></div>
-                                            <p  class="tip error"></p>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div   class="input-container">
-                                <div  class="sw-InputText none">
-                                    <input  type="tel" id="register-telephone" name="register-telephone" placeholder="Tu número de teléfono" displayicon="true" minlength="10" maxlength="10" hidden="hidden" />
-                                    <span  class="sw-InputText_Icon"></span>
-                                </div>
-                                <div  class="sw-InputText_Extra"><p  class="sw-InputText_Message"></p></div>
-                            </div>
-                        </div>
+                        
                     </div>
                     <!---->
+
+                    <div class="alert" v-if="mensajeError">
+                    <span class="closebtn" @click="mensajeError=''" >&times;</span> 
+                    {{ mensajeError }}
+                    </div>
+
+                    
                     <div >
                         <!---->
                         <div  id="login-button-submit" class="row">
-                            <div ><button  type="submit" class="btn primary login-submit-button">Crea una cuenta</button></div>
+                            <div ><button  @click.prevent="handleRegistro" class="btn primary login-submit-button">Crea una cuenta</button></div>
                             <!---->
                         </div>
                     </div>
@@ -125,6 +82,79 @@
 
 <script>
 export default {
-    name: "FormLogin",
+    name: "FormRegistro",
+    data() {
+        return {
+            formRegistro: {
+                correo: '',
+                password: '',
+                password_confirm: ''
+            },
+            mensajeError: '',
+            mostrarPassword: false
+        }
+    },
+    computed: {
+        tipoInputPassword(){
+            return this.mostrarPassword ? 'text' : 'password'
+        }
+    },
+    methods: {
+        async handleRegistro(){
+            
+            try{
+                await this.validarCampos();
+
+                //enviar datos al componente padre
+                this.$emit('getDatos', this.formRegistro);
+            }catch(error){
+                this.mensajeError=error;
+            }
+            
+        },
+
+        validarCampos() {
+            return new Promise((resolve, reject) => {
+                const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                if(!re.test(String(this.formRegistro.correo).toLowerCase())){
+                    reject('El correo no es válido');
+                }
+
+                const reExPassword = /^(?=.*[A-Z])(?=.*\d).*$/;
+                if(!reExPassword.test(String(this.formRegistro.password))){
+                    reject('Las contraseña debe tener al menos una letra mayúscula y un número.');
+                }
+
+                if(this.formRegistro.password_confirm != this.formRegistro.password){
+                    reject('Las contraseñas no coinciden, verificarlas');
+                }
+
+                resolve(true);
+            });
+        },
+    },
 }
 </script>
+
+<style scoped>
+.alert {
+    padding: 20px;
+    background-color: #f4433652;
+    color: #333333;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: rgb(185, 11, 11);
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+</style>
