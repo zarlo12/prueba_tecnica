@@ -21,8 +21,8 @@
                               <div class="form-input-toggle">
                                   <div>
                                       <label>
-                                          <input id="ai-toggle-password" type="checkbox" name="toggle-password" />
-                                          <div><p>Mostrar</p></div>
+                                          <input v-model="mostrarPassword" id="ai-toggle-password" type="checkbox" name="toggle-password" />
+                                          <div><p>{{ mostrarPassword ? 'Ocultar' : 'Mostrar' }}</p></div>
                                           <p class="tip error"></p>
                                       </label>
                                   </div>
@@ -30,7 +30,7 @@
                           </div>
                           <div class="input-container">
                               <div class="sw-InputText none">
-                                  <input type="password" v-model="password" autocomplete="on" id="login-password" name="login-password" placeholder="Tu contraseña" novalidate="novalidate" />
+                                  <input :type="tipoInputPassword" v-model="password" autocomplete="on" id="login-password" name="login-password" placeholder="Tu contraseña" novalidate="novalidate" />
                                   <!---->
                               </div>
                               <div class="sw-InputText_Extra"><p class="sw-InputText_Message"></p></div>
@@ -70,7 +70,13 @@ export default {
         return {
             correo: '',
             password: '',
-            mensajeError: ''
+            mensajeError: '',
+            mostrarPassword: false
+        }
+    },
+    computed: {
+        tipoInputPassword(){
+            return this.mostrarPassword ? 'text' : 'password'
         }
     },
     methods: {
@@ -87,10 +93,6 @@ export default {
 
         validarCampos() {
             return new Promise((resolve, reject) => {
-                
-                
-                
-
                 const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                 if(!re.test(String(this.correo).toLowerCase())){
                     reject('El correo no es válido');
